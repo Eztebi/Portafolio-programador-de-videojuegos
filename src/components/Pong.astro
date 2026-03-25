@@ -1,0 +1,102 @@
+<!--Juego-->
+<section id="juego">
+    <h2>Jueguito</h2>
+    <div id="player"></div>
+    <div id="ball"></div>
+
+    <style>
+        #juego {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background-color: black;
+            overflow: hidden;
+            margin-top: 1rem;
+            border-radius: 10px;
+        }
+        #player {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            transform: translateY(-50%);
+        }
+        #ball {
+            width: 20px;
+            height: 20px;
+            background: yellow;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 200px;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const player = document.getElementById("player");
+            const ball = document.getElementById("ball");
+            const juego = document.getElementById("juego");
+
+            if (!player || !ball || !juego) return;
+
+            let playerY = 175;
+            let playerX = 175;
+            let ballX = 200;
+            let ballY = 200;
+            let ballSpeedX = 1;
+            let ballSpeedY = 1;
+            const ballMaxSpeed = 3;
+
+            juego.addEventListener("mousemove", (e) => {
+                const rect = juego.getBoundingClientRect();
+                let mouseY = e.clientY - rect.top;
+                let mouseX = e.clientX - rect.left;
+                mouseY = Math.max(
+                    50,
+                    Math.min(mouseY - 10, juego.clientHeight - 50),
+                );
+                mouseX = Math.max(
+                    0,
+                    Math.min(mouseX - 25, juego.clientWidth - 50),
+                );
+                playerY = mouseY;
+                playerX = mouseX;
+                player.style.top = playerY + "px";
+                player.style.left = playerX + "px";
+            });
+
+            function gameLoop() {
+                ballX += ballSpeedX;
+                ballY += ballSpeedY;
+
+                if (ballY <= 20 || ballY >= juego?.clientHeight - 20) {
+                    ballSpeedY *= -1;
+                }
+                if (ballX <= 20 || ballX >= juego?.clientWidth - 20) {
+                    ballSpeedX *= -1;
+                }
+
+                //colisiones
+                if (
+                    ballX + 20 >= playerX && // derecha de la pelota >= izquierda del jugador
+                    ballX <= playerX + 50 && // izquierda de la pelota <= derecha del jugador
+                    ballY + 20 >= playerY && // abajo de la pelota >= arriba del jugador
+                    ballY <= playerY + 50 // arriba de la pelota <= abajo del jugador
+                ) {
+                    ballSpeedY *= -1;
+                }
+                ball.style.left = ballX + "px";
+                ball.style.top = ballY + "px";
+
+                requestAnimationFrame(gameLoop);
+            }
+
+            gameLoop();
+        });
+    </script>
+</section>
