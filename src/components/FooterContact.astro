@@ -1,0 +1,81 @@
+---
+import { FaGithub, FaEnvelope, FaYoutube, FaLinkedin } from "react-icons/fa";
+---
+
+<footer>
+  <div class="footer-content">
+    <p class="footer-title">Contacto</p>
+
+    <div class="footer-links">
+      <a href="mailto:estebanhernandezV26@gmail.com">
+        <FaEnvelope client:load size={20} />
+        <span>Email</span>
+      </a>
+
+      <a href="https://github.com/Eztebi" target="_blank">
+        <FaGithub client:load size={20} />
+        <span>GitHub</span>
+      </a>
+
+      <a
+        href="https://www.linkedin.com/in/esteban-hernández-valenzuela-5623482b7/"
+        target="_blank"
+      >
+        <FaLinkedin client:load size={20} />
+        <span>LinkedIn</span>
+      </a>
+
+      <a href="https://youtube.com" target="_blank">
+        <FaYoutube client:load size={20} />
+        <span>YouTube</span>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+    footer {
+    background: #0f172a;
+    color: #e5e7eb;
+    padding: 2.5rem 1rem;
+    margin-top: 4rem;
+  }
+
+  .footer-content {
+    max-width: 1000px;
+    margin: auto;
+    text-align: center;
+  }
+
+  .footer-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-links a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #e5e7eb;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .footer-links a:hover {
+    color: #38bdf8;
+  }
+
+  .footer-copy {
+    font-size: 0.85rem;
+    color: #9ca3af;
+  }
+</style>

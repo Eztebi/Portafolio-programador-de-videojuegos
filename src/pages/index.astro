@@ -1,32 +1,65 @@
 ---
 import AboutMe from "../components/AboutMe.astro";
-import GameProject from "../components/GameProject";
-import Contact from "../components/Contact.astro";
+import GameProject from "../components/GameProject.jsx";
+import FooterContact from "../components/FooterContact.astro";
+import NavBar from "../components/NavBar.astro";
+
 const name = "Esteban Hernández Valenzuela";
-const role = "Game Programmer";
 ---
 
 <html lang="es">
-	<head>
-		<meta charset="utf-8"/>
-		<title>{name} | Portafolio</title>
-	</head>
-	<body style="font-family: sans-serif; padding:2rem;">
+  <head>
+    <meta charset="utf-8" />
+    <title>{name} | Portafolio</title>
+    <style>html {scroll-behavior: smooth;}</style>
+  </head>
+  <body style="font-family: sans-serif; padding:2rem;">
 
-		<section id="About">
-			<AboutMe></AboutMe>
-		</section>
+    <!-- NAVBAR -->
+    <NavBar />
 
-		<section id="Projects">
-			<h2>Projects</h2> 
-			<GameProject  title="Algo Game"
-        	description="Juego."
-        	tool="Unity · C#"
-        	youtubeId="eQXG75XirdE"
-        	githubLink="https://github.com/Eztebi/Portafolio-programador-de-videojuegos"></GameProject>
-		</section>
-		<section id="Contact">
-			<Contact></Contact>
-		</section>
-	</body>
+    <!-- ABOUT -->
+    <section id="about">
+      <AboutMe />
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <h2>Proyectos</h2>
+
+      <GameProject
+        title="Algo Game"
+        description="Juego."
+        tool="Unity · C#"
+        youtubeId="eQXG75XirdE"
+        githubLink="https://github.com/Eztebi/Portafolio-programador-de-videojuegos"
+      />
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <h2>Experiencia Profesional</h2>
+      <div>
+        <h3>Becario en el área de supervisión — SAE Institute México</h3>
+        <p>2025 - Actualidad</p>
+
+        <ul>
+          <li>Desarrollo de aplicacion de equipo de prestamo en Unity</li>
+          <li>Desarrollo de Proyecto Ruta de la Amistad  en Unity</li>
+          <li>Optimización y debugging</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CV -->
+    <section id="cv">
+      <h2>Currículum</h2>
+      <a href="/cv/Esteban_Hernandez_GameProgrammer.pdf" download></a>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <FooterContact />
+    </section>
+  </body>
 </html>
