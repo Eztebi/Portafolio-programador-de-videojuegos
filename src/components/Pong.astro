@@ -8,7 +8,7 @@
         #juego {
             position: relative;
             width: 100%;
-            height: 400px;
+            height: 600px;
             background-color: black;
             overflow: hidden;
             margin-top: 1rem;
@@ -46,29 +46,32 @@
 
             let playerY = 175;
             let playerX = 175;
-            let ballX = 200;
-            let ballY = 200;
+            let ballX = juego.clientHeight / 2;
+            let ballY = juego.clientWidth / 2;
             let ballAccX = 0;
             let ballAccY = 0;
             let ballVelX = 0;
             let ballVelY = 0;
-            const ballMaxSpeed = 5;
+            const ballMaxSpeed = 15;
             let lastPlayerX = playerX;
             let lastPlayerY = playerY;
-            const playerForce = 2;
+            let playerForce = 0.5;
             let canHit = true;
             const friction = 0.99;
+            const playerRadius = 25;
+            const ballRadius = 10;
+            let lastTime=0;
             juego.addEventListener("mousemove", (e) => {
                 const rect = juego.getBoundingClientRect();
                 let mouseY = e.clientY - rect.top;
                 let mouseX = e.clientX - rect.left;
                 mouseY = Math.max(
-                    50,
-                    Math.min(mouseY - 10, juego.clientHeight - 50),
+                    25,
+                    Math.min(mouseY +5, juego.clientHeight -25),
                 );
                 mouseX = Math.max(
                     0,
-                    Math.min(mouseX - 30, juego.clientWidth - 50),
+                    Math.min(mouseX - 25, juego.clientWidth - 50),
                 );
                 playerY = mouseY;
                 playerX = mouseX;
@@ -76,73 +79,91 @@
                 player.style.left = playerX + "px";
             });
 
-            function gameLoop() {
-                if (ballX <= 0) {
-                    ballX = 0;
-                    ballVelX *= -1;
-                }
-                if (ballX >= juego.clientWidth - 20) {
-                    ballX = juego.clientWidth - 20;
-                    ballVelX *= -1;
-                }
-                if (ballY <= 0) {
-                    ballY = 0;
-                    ballVelY *= -1;
-                }
-                if (ballY >= juego.clientHeight - 20) {
-                    ballY = juego.clientHeight - 20;
-                    ballVelY *= -1;
-                }
+function gameLoop(timestamp) {
+        const dt = lastTime ? (timestamp - lastTime) / 16.6 : 1;
+    lastTime = timestamp;
 
-                const playerVelX = playerX - lastPlayerX;
-                const playerVelY = playerY - lastPlayerY;
+        if (ballX <= 0) {
+            ballX = 0;
+            ballVelX *= -1;
+        }
+        if (ballX >= juego.clientWidth - 20) {
+            ballX = juego.clientWidth - 20;
+            ballVelX *= -1;
+        }
+        if (ballY <= 0) { // Corregido a 0 para que no rebote antes de tiempo
+            ballY = 0;
+            ballVelY *= -1;
+        }
+        if (ballY >= juego.clientHeight - 20) {
+            ballY = juego.clientHeight - 20;
+            ballVelY *= -1;
+        }
+
+        // Calcular velocidad del jugador en este frame
+        const pVelX = playerX - lastPlayerX;
+        const pVelY = playerY - lastPlayerY;
+
+        ballVelX += ballAccX;
+        ballVelY += ballAccY;
+
+        const speed = Math.sqrt(ballVelX ** 2 + ballVelY ** 2);
+        if (speed > ballMaxSpeed) {
+            ballVelX = (ballVelX / speed) * ballMaxSpeed;
+            ballVelY = (ballVelY / speed) * ballMaxSpeed;
+        }
+
+        ballVelX *= friction;
+        ballVelY *= friction;
+        ballX += ballVelX * dt;
+        ballY += ballVelY * dt;
+
+        ballAccX = 0;
+        ballAccY = 0;
+
+        if (
+            ballX + 20 > playerX &&
+            ballX < playerX + 50 &&
+            ballY + 20 > playerY &&
+            ballY < playerY + 50
+        ) {
+            const playerCenterX = playerX + playerRadius;
+            const playerCenterY = playerY + playerRadius;
+            const ballCenterX = ballX + ballRadius;
+            const ballCenterY = ballY + ballRadius;
+
+            const distX = ballCenterX - playerCenterX;
+            const distY = ballCenterY - playerCenterY;
+            const distLength = Math.hypot(distX, distY);
+            const minDist = ballRadius + playerRadius;
+
+            if (distLength < minDist) {
+                const nX = distX / distLength;
+                const nY = distY / distLength;
+
+                const overlap = minDist - distLength;
+                ballX += nX * overlap;
+                ballY += nY * overlap;
+
+                const pSpeed = Math.hypot(pVelX, pVelY);
+                if (pSpeed > 0.5) {
+                    ballAccX = nX * pSpeed * playerForce;
+                    ballAccY = nY * pSpeed * playerForce;
+                } else {
+                    ballVelX = nX * (Math.abs(ballVelX) +1);
+                    ballVelY = nY * (Math.abs(ballVelY) + 1);
+                }
+            }
+        }
                 lastPlayerX = playerX;
                 lastPlayerY = playerY;
-
-                ballVelX += ballAccX;
-                ballVelY += ballAccY;
-
-                const speed = Math.sqrt(ballVelX ** 2 + ballVelY ** 2);
-                if (speed > ballMaxSpeed) {
-                    ballVelX = (ballVelX / speed) * ballMaxSpeed;
-                    ballVelY = (ballVelY / speed) * ballMaxSpeed;
-                }
-
-                ballVelX *= friction;
-                ballVelY *= friction;
-
-                ballX += ballVelX;
-                ballY += ballVelY;
-
-                ballAccX = 0;
-                ballAccY = 0;
-
-                if (
-                    ballX + 20 > playerX &&
-                    ballX < playerX + 50 &&
-                    ballY + 20 > playerY &&
-                    ballY < playerY + 50
-                ) {
-                    let dirX = ballX + 10 - (playerX + 25);
-                    let dirY = ballY + 10 - (playerY + 25);
-
-                    const length = Math.sqrt(dirX * dirX + dirY * dirY) || 1;
-                    dirX /= length;
-                    dirY /= length;
-
-                    ballVelX = dirX * ballMaxSpeed + playerVelX * 0.2;
-                    ballVelY = dirY * ballMaxSpeed + playerVelY * 0.2;
-
-                    ballX += dirX * 5;
-                    ballY += dirY * 5;
-                }
                 ball.style.left = ballX + "px";
                 ball.style.top = ballY + "px";
 
                 requestAnimationFrame(gameLoop);
             }
 
-            gameLoop();
+            requestAnimationFrame(gameLoop);
         });
     </script>
 </section>
