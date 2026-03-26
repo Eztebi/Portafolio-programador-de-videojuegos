@@ -48,10 +48,16 @@
             let playerX = 175;
             let ballX = 200;
             let ballY = 200;
-            let ballSpeedX = 1;
-            let ballSpeedY = 1;
-            const ballMaxSpeed = 3;
-
+            let ballAccX = 0;
+            let ballAccY = 0;
+            let ballVelX = 0;
+            let ballVelY = 0;
+            const ballMaxSpeed = 5;
+            let lastPlayerX = playerX;
+            let lastPlayerY = playerY;
+            const playerForce = 2;
+            let canHit = true;
+            const friction = 0.99;
             juego.addEventListener("mousemove", (e) => {
                 const rect = juego.getBoundingClientRect();
                 let mouseY = e.clientY - rect.top;
@@ -62,7 +68,7 @@
                 );
                 mouseX = Math.max(
                     0,
-                    Math.min(mouseX - 25, juego.clientWidth - 50),
+                    Math.min(mouseX - 30, juego.clientWidth - 50),
                 );
                 playerY = mouseY;
                 playerX = mouseX;
@@ -71,24 +77,64 @@
             });
 
             function gameLoop() {
-                ballX += ballSpeedX;
-                ballY += ballSpeedY;
-
-                if (ballY <= 20 || ballY >= juego?.clientHeight - 20) {
-                    ballSpeedY *= -1;
+                if (ballX <= 0) {
+                    ballX = 0;
+                    ballVelX *= -1;
                 }
-                if (ballX <= 20 || ballX >= juego?.clientWidth - 20) {
-                    ballSpeedX *= -1;
+                if (ballX >= juego.clientWidth - 20) {
+                    ballX = juego.clientWidth - 20;
+                    ballVelX *= -1;
+                }
+                if (ballY <= 0) {
+                    ballY = 0;
+                    ballVelY *= -1;
+                }
+                if (ballY >= juego.clientHeight - 20) {
+                    ballY = juego.clientHeight - 20;
+                    ballVelY *= -1;
                 }
 
-                //colisiones
+                const playerVelX = playerX - lastPlayerX;
+                const playerVelY = playerY - lastPlayerY;
+                lastPlayerX = playerX;
+                lastPlayerY = playerY;
+
+                ballVelX += ballAccX;
+                ballVelY += ballAccY;
+
+                const speed = Math.sqrt(ballVelX ** 2 + ballVelY ** 2);
+                if (speed > ballMaxSpeed) {
+                    ballVelX = (ballVelX / speed) * ballMaxSpeed;
+                    ballVelY = (ballVelY / speed) * ballMaxSpeed;
+                }
+
+                ballVelX *= friction;
+                ballVelY *= friction;
+
+                ballX += ballVelX;
+                ballY += ballVelY;
+
+                ballAccX = 0;
+                ballAccY = 0;
+
                 if (
-                    ballX + 20 >= playerX && // derecha de la pelota >= izquierda del jugador
-                    ballX <= playerX + 50 && // izquierda de la pelota <= derecha del jugador
-                    ballY + 20 >= playerY && // abajo de la pelota >= arriba del jugador
-                    ballY <= playerY + 50 // arriba de la pelota <= abajo del jugador
+                    ballX + 20 > playerX &&
+                    ballX < playerX + 50 &&
+                    ballY + 20 > playerY &&
+                    ballY < playerY + 50
                 ) {
-                    ballSpeedY *= -1;
+                    let dirX = ballX + 10 - (playerX + 25);
+                    let dirY = ballY + 10 - (playerY + 25);
+
+                    const length = Math.sqrt(dirX * dirX + dirY * dirY) || 1;
+                    dirX /= length;
+                    dirY /= length;
+
+                    ballVelX = dirX * ballMaxSpeed + playerVelX * 0.2;
+                    ballVelY = dirY * ballMaxSpeed + playerVelY * 0.2;
+
+                    ballX += dirX * 5;
+                    ballY += dirY * 5;
                 }
                 ball.style.left = ballX + "px";
                 ball.style.top = ballY + "px";
