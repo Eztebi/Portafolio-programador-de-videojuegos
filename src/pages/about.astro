@@ -2,6 +2,7 @@
 import NavBar from "../components/NavBar.astro";
 import FooterContact from "../components/FooterContact.astro";
 import Pong from "../components/Pong.astro";
+import Layout from "../layouts/Layout.astro";
 ---
 
 <html lang="es">
@@ -16,10 +17,9 @@ import Pong from "../components/Pong.astro";
     </head>
     <body style="font-family: sans-serif; padding:2rem;">
         <main style="padding: 2rem">
-            <!-- NavBar-->
-            <section id="navBar">
-                <NavBar />
-            </section>
+
+            <!--Layout -->
+            <Layout/>
 
             <!--About Me -->
             <section id="about">

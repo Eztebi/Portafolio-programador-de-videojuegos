@@ -2,8 +2,56 @@
 const name = "Esteban Hernández Valenzuela";
 const role = "Game Programmer";
 ---
-<section id="about">
-    <h1>Hola soy {name}</h1>
-		<h2>{role}</h2>
-		<p>Soy un programador de videojuegos con experiencia en Unity y Unreal Engine, con conocimentos de lenguajes como C#, C++, Javascript, Java y Python.</p>  
+
+<section id="about" style="max-width:800px; margin-bottom:6rem;">
+  <h1>Hola soy {name}</h1>
+  <h2>{role}</h2>
+
+  <div class="about-content">
+    <img src="/me.png" alt="fotopata" />
+
+    <div class="about-text">
+      <p>
+        Soy programador de videojuegos y desarrollador creativo.
+        Me gusta crear experiencias interactivas y sistemas que se sientan fluidos y divertidos.
+        También disfruto realizar proyectos que no están directamente relacionados con videojuegos
+        y siempre estoy dispuesto a aprender nuevas tecnologías.
+      </p>
+
+      <p>
+        Aquí puedes ver algunos de mis proyectos en los que he trabajado :)
+      </p>
+    </div>
+  </div>
 </section>
+
+<style>
+.about-content {
+  display: flex;
+  gap: 2rem;
+  align-items: center; 
+  margin-top: 1.5rem;
+}
+
+  .about-content img {
+    width: 160px;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+
+  .about-text p {
+    margin: 0 1rem 1rem 0;
+  }
+
+  @media (max-width: 700px) {
+    .about-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .about-content img {
+      margin-bottom: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,136 @@
+---
+// Fireflies.astro
+---
+
+<canvas id="fireflies"></canvas>
+
+<style>
+  canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none; 
+  }
+</style>
+
+<script client:load>
+  const canvas = document.getElementById("fireflies");
+  const ctx = canvas.getContext("2d");
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  resize();
+  window.addEventListener("resize", resize);
+
+  const fireflies = [];
+  const sparks = [];
+  const mouse = { x: 0, y: 0 };
+
+  class Firefly {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.vx = (Math.random() - 0.5) * 0.2;
+      this.vy = (Math.random() - 0.5) * 0.2;
+      this.alpha = 0;
+      this.fadeSpeed = 0.01 + Math.random()*0.03;
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+
+      if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+      if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+    
+      this.alpha = Math.min(1,this.alpha + this.fadeSpeed);
+    }
+
+    draw() {
+      const glow = ctx.createRadialGradient(
+        this.x,
+        this.y,
+        0,
+        this.x,
+        this.y,
+        40
+      );
+      glow.addColorStop(0.0, `rgba(255,255,255,${0.7 * this.alpha})`);
+      glow.addColorStop(.7, "rgba(255,255,150,0)");
+
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, 20, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function explode(x, y) {
+    for (let i = 0; i < 12; i++) {
+      sparks.push({
+        x,
+        y,
+        vx: (Math.random() - 0.5) * 4,
+        vy: (Math.random() - 0.5) * 4,
+        life: 30,
+      });
+    }
+    spawn();
+  }
+
+  function drawSparks() {
+    for (let i = sparks.length - 1; i >= 0; i--) {
+      const p = sparks[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life--;
+
+      ctx.fillStyle = `rgba(255,255,155,${p.life / 30})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (p.life <= 0) sparks.splice(i, 1);
+    }
+  }
+  function spawn(){
+    fireflies.push(new Firefly());
+  }
+  window.addEventListener("mousemove", (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+
+    for (let i = fireflies.length - 1; i >= 0; i--) {
+      const f = fireflies[i];
+      const dx = f.x - mouse.x;
+      const dy = f.y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < 30) {
+        explode(f.x, f.y);
+        fireflies.splice(i, 1);
+      }
+    }
+  });
+
+  for (let i = 0; i < 70; i++) {
+    fireflies.push(new Firefly());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    fireflies.forEach(f => {
+      f.update();
+      f.draw();
+    });
+
+    drawSparks();
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
