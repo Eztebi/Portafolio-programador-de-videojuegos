@@ -17,7 +17,7 @@ export default function GameProject({title,description,tool,youtubeId,githubLink
       </div>
 
       <p>{description}</p>
-      <p><strong>Made with:</strong> {tool}</p>
+      <p><strong>Hecho con:</strong> {tool}</p>
       <p>
         <a
             href={githubLink}

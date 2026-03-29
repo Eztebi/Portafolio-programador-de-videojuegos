@@ -56,11 +56,11 @@
             let lastPlayerX = playerX;
             let lastPlayerY = playerY;
             let playerForce = 0.5;
-            let canHit = true;
             const friction = 0.99;
             const playerRadius = 25;
             const ballRadius = 10;
             let lastTime=0;
+
             juego.addEventListener("mousemove", (e) => {
                 const rect = juego.getBoundingClientRect();
                 let mouseY = e.clientY - rect.top;
@@ -81,7 +81,7 @@
 
 function gameLoop(timestamp) {
         const dt = lastTime ? (timestamp - lastTime) / 16.6 : 1;
-    lastTime = timestamp;
+        lastTime = timestamp;
 
         if (ballX <= 0) {
             ballX = 0;
@@ -151,7 +151,7 @@ function gameLoop(timestamp) {
                     ballAccY = nY * pSpeed * playerForce;
                 } else {
                     ballVelX = nX * (Math.abs(ballVelX) +1);
-                    ballVelY = nY * (Math.abs(ballVelY) + 1);
+                    ballVelY = nY * (Math.abs(ballVelY) +1);
                 }
             }
         }
