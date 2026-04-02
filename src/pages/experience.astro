@@ -5,39 +5,55 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <html lang="es">
-    <head>
-        <meta charset="utf-8" />
-        <title>Sobre mí | Esteban Hernández</title>
-        <style>html {scroll-behavior: smooth;}</style>
-    </head>
-    <body style="font-family: sans-serif; padding:2rem;">
+  <head>
+    <meta charset="utf-8" />
+    <title>Sobre mí | Esteban Hernández</title>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
+  <body style="font-family: sans-serif; padding:2rem;">
+    <!--Layout -->
+    <Layout />
 
-      <!--Layout -->
-        <Layout/>
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <h2>Experiencia Profesional</h2>
+      <div>
+        <h3>Becario en el área de supervisión — SAE Institute México</h3>
+        <p>Junio 2025 - Actualidad</p>
 
-        <!-- EXPERIENCE -->
-        <section id="experience">
-          <h2>Experiencia Profesional</h2>
-          <div>
-            <h3>Becario en el área de supervisión — SAE Institute México</h3>
-            <p>Junio 2025 - Actualidad</p>
-        
-            <ul>
-              <li>Desarrollo de aplicacion de equipo de prestamo en Unity. Concectando a una base de datos en google sheets para obtener el equipo de prestamo y subir las solicitudes.</li>
-              <li>Desarrollo de Proyecto Ruta de la Amistad  en Unity. Desarrollo de juego para la exposición Rutad e la Amistad 2026 en CDMX</li>
-            </ul>
-          </div>
-        </section>
-        
-        <!-- CV -->
-        <section id="cv">
-          <h2>Currículum</h2>
-          <a href="/cv/Esteban_Hernandez_GameProgrammer.pdf" download></a>
-        </section>
+        <ul>
+          <li>
+            Desarrollo de aplicacion de equipo de prestamo en Unity. Concectando
+            a una base de datos en google sheets para obtener el equipo de
+            prestamo y subir las solicitudes.
+          </li>
+          <li>
+            Desarrollo de Proyecto Ruta de la Amistad en Unity. Desarrollo de
+            juego para la exposición Rutad e la Amistad 2026 en CDMX
+          </li>
+        </ul>
+      </div>
+    </section>
 
-        <!--Contact -->
-        <section id="contact">
-            <FooterContact />
-        </section>
-    </body>
+    <!-- CV -->
+    <section id="cv">
+      <h2>Currículum</h2>
+      <a
+        href="/Curriculum-EstebanHernandez.pdf"
+        download
+        style="display:inline-block; padding:0.75rem 1.5rem; background:#000; color:#fff; text-decoration:none; border-radius:8px;"
+      >
+        Descargar CV (PDF)
+      </a>
+    </section>
+
+    <!--Contact -->
+    <section id="contact">
+      <FooterContact />
+    </section>
+  </body>
 </html>
