@@ -1,13 +1,15 @@
 ---
 import Fireflies from "../components/Fireflies.astro";
 import NavBar from "../components/NavBar.astro";
+import FooterContact from "../components/FooterContact.astro";
+const { lang, t } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
-	<style>
+    <style>
       html {
         scroll-behavior: smooth;
       }
@@ -15,17 +17,31 @@ import NavBar from "../components/NavBar.astro";
       body {
         margin: 0;
         font-family: sans-serif;
-        background: #000;      
-        color: #fff;           
+        background: #000;
+        color: #fff;
         padding: 2rem;
-		</style>
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      main {
+        flex: 1;
+      }
+    </style>
   </head>
 
   <body>
     <Fireflies />
-	<NavBar />
+    <NavBar lang={lang} t={t} />
+
     <main>
       <slot />
     </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+      <FooterContact lang={lang} t={t} />
+    </footer>
   </body>
 </html>

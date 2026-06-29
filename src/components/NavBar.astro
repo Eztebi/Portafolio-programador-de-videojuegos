@@ -1,13 +1,26 @@
 ---
 const { lang, t } = Astro.props;
+const currentLabel = lang === "es" ? "🇲🇽 ES" : "🇺🇸 EN";
 ---
 
 <nav class="navbar">
-  <a href="/">Home</a>
-  <a href="/#projects">Proyectos</a>
-  <a href="/about">Sobre mí</a>
-  <a href="/experience">Experiencia</a>
-  <a href="#contact">Contacto</a>
+  <a href={`/${lang}`}>{t("nav.home")}</a>
+  <a href={`/${lang}#projects`}>{t("nav.projects")}</a>
+  <a href={`/${lang}/about`}>{t("nav.aboutMe")}</a>
+  <a href={`/${lang}/experience`}>{t("nav.experience")}</a>
+  <a href={`/${lang}#contact`}>{t("nav.contact")}</a>
+
+  <!-- Dropdown idioma -->
+  <div class="lang-dropdown" data-open="false">
+    <button class="lang-btn" type="button">
+      {currentLabel} ▾
+    </button>
+
+    <div class="lang-menu">
+      <a href="/es">🇲🇽 Español</a>
+      <a href="/en">🇺🇸 English</a>
+    </div>
+  </div>
 </nav>
 
 <style>
@@ -33,4 +46,63 @@ const { lang, t } = Astro.props;
   .navbar a:hover {
     color: #cfff7d;
   }
+  .lang-switch {
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
+}
+
+.lang-dropdown {
+  margin-left: auto;
+  position: relative;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* cerrado por defecto */
+.lang-menu {
+  position: absolute;
+  right: 0;
+  top: 120%;
+  background: #020617;
+  border-radius: 6px;
+  display: none;
+  flex-direction: column;
+  min-width: 140px;
+  z-index: 200;
+}
+
+/* abierto por atributo */
+.lang-dropdown[data-open="true"] .lang-menu {
+  display: flex;
+}
+
+.lang-menu a {
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+}
+
+.lang-menu a:hover {
+  background: #1e293b;
+}
 </style>
+
+<script>
+  document.addEventListener("click", (e) => {
+    const dropdown = document.querySelector(".lang-dropdown");
+    const button = dropdown.querySelector(".lang-btn");
+
+    if (button.contains(e.target)) {
+      const isOpen = dropdown.getAttribute("data-open") === "true";
+      dropdown.setAttribute("data-open", String(!isOpen));
+    } else if (!dropdown.contains(e.target)) {
+      dropdown.setAttribute("data-open", "false");
+    }
+  });
+</script>

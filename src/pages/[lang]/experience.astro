@@ -1,0 +1,47 @@
+---
+import NavBar from "../../components/NavBar.astro";
+import Layout from "../../layouts/Layout.astro";
+import { useTranslations } from "../../i18n/useTranslation";
+
+export function getStaticPaths() {
+    return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
+}
+const { lang } = Astro.params;
+if (lang !== "es" && lang !== "en") {
+    throw new Error("Idioma no soportado");
+}
+const t = useTranslations(lang);
+---
+
+    <Layout lang={lang} t={t}>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <h2>{t("experience.intro")}</h2>
+      <div>
+        <h3>{t("experience.job1.title")}</h3>
+        <p>{t("experience.job1.date")}</p>
+
+        <ul>
+          <li>
+            {t("experience.job1.description1")}
+          </li>
+          <li>
+            {t("experience.job1.description2")}
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CV -->
+    <section id="cv">
+      <h2>{t("experience.resume")}</h2>
+      <a
+        href="/Curriculum-EstebanHernandez.pdf"
+        download
+        style="display:inline-block; padding:0.75rem 1.5rem; background:#000; color:#fff; text-decoration:none; border-radius:8px;"
+      >
+        Descargar CV (PDF)
+      </a>
+    </section>
+    </Layout>

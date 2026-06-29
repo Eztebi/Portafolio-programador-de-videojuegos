@@ -1,12 +1,30 @@
 {
-    "navHome": "Inicio",
-    "navProjects": "Proyectos",
-    "navAboutMe": "Sobre Mi",
-    "navExperience": "Experiencia",
-    "navContacto": "Contacto",
+    "nav.home": "Inicio",
+    "nav.projects": "Proyectos",
+    "nav.aboutMe": "Sobre Mi",
+    "nav.experience": "Experiencia",
+    "nav.contact": "Contacto",
+
     "introduction": "Hola soy",
     "name": "Esteban Hernández Valenzuela",
     "role": "Estudiante de Programación de Videojuegos",
-    "about": "Soy estudiante de programación de videojuegos y desarrollador creativo. Me gusta crear experiencias interactivas y sistemas que se sientan fluidos y divertidos. También disfruto realizar proyectos de programación que no estén directamente relacionados con videojuegos y siempre estoy dispuesto a aprender nuevas tecnologías."
+    "about": "Soy estudiante de programación de videojuegos y desarrollador creativo. Me gusta crear experiencias interactivas y sistemas que se sientan fluidos y divertidos. También disfruto realizar proyectos de programación que no estén directamente relacionados con videojuegos y siempre estoy dispuesto a aprender nuevas tecnologías.",
+    
+    "pong.name": "Jueguito",
 
+    "Aboutme.intro": "Sobre Mí | Esteban Hernández",
+
+    "footer.contact": "Contacto",
+
+    "experience.intro": "Experiencia Profesional",
+    "experience.job1.title": "Becario en el área de supervisión — SAE Institute México", 
+    "experience.job1.date": "Junio 2025 - Actualidad",
+    "experience.job1.description1": "Desarrollo de aplicación de equipo de prestamo en Unity. Conectando a una base de datos en google sheets para obtener el equipo de prestamo y subir las solicitudes.",
+    "experience.job1.description2": "Desarrollo de juego Un Mundo de Amistad para la exposición Ruta de la Amistad 2026 en CDMX en Unity para android.",
+    "experience.resume": "Currículum",
+
+    "project.title": "Proyectos",
+    "project.intro": "Aquí puedes ver algunos de mis proyectos en los que he trabajado :)",
+    "game.MundoDeAmistad.title": "Un mundo de amistad",
+    "game.MundoDeAmistad.description": "Desarrollador y diseñador de juego en android en Unity para exposición Ruta de la Amistad en CDMX."
 }

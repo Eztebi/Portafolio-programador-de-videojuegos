@@ -1,43 +1,42 @@
 ---
-import AboutMe from "../components/AboutMe.astro";
-import GameProject from "../components/GameProject.jsx";
-import FooterContact from "../components/FooterContact.astro";
-import NavBar from "../components/NavBar.astro";
-import Layout from "../layouts/Layout.astro";
+import AboutMe from "../../components/AboutMe.astro";
+import GameProject from "../../components/GameProject.jsx";
+import Layout from "../../layouts/Layout.astro";
+import { useTranslations } from '../../i18n/useTranslation';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'es' } },
+    { params: { lang: 'en' } }
+  ];
+}
+const { lang } = Astro.params;
+if (lang !== 'es' && lang !== 'en') {
+  throw new Error('Idioma no soportado');
+}
+const t = useTranslations(lang);
+
 const name = "Esteban Hernández Valenzuela";
+
 ---
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <title>{name} | Portafolio</title>
-    <style>html {scroll-behavior: smooth;}
-    </style>
-  </head>
-  <body style="font-family: sans-serif; padding:2rem;">
-    
-    <!--Layout -->
-    <Layout/>
+<Layout lang={lang} t={t}>
+  <!-- ABOUT -->
+  <section id="about">
+    <AboutMe t={t} />
+    <p>{t("project.intro")}</p>
+  </section>
 
-    <!-- ABOUT -->
-    <section id="about">
-      <AboutMe />
-      <p>
-        Aquí puedes ver algunos de mis proyectos en los que he trabajado :)
-      </p>
-    </section>
+  <!-- PROJECTS -->
+  <section id="projects">
+    <h2>{t("project.title")}</h2>
 
-    <!-- PROJECTS -->
-    <section id="projects">
-      <h2>Proyectos</h2>
-
-      <GameProject
-        title="Un mundo de Amistad"
-        description="Desarrollador y diseñador de juego en android en Unity para exposición Ruta de la Amistad en CDMX."
-        tool="Unity · C#"
-        youtubeId=""
-        githubLink=""
-      />
+    <GameProject
+      title={t("game.MundoDeAmistad.title")}
+      description={t("game.MundoDeAmistad.description")}
+      tool="Unity · C#"
+      youtubeId=""
+      githubLink=""
+    />
 
       <GameProject
         title="Dwarf Sindicate"
@@ -82,10 +81,4 @@ const name = "Esteban Hernández Valenzuela";
         githubLink="https://github.com/Eztebi/Portafolio-programador-de-videojuegos"
       />
     </section>
-
-    <!-- CONTACT -->
-    <section id="contact">
-      <FooterContact />
-    </section>
-  </body>
-</html>
+</Layout>

@@ -1,22 +1,17 @@
+
 ---
-const name = "Esteban Hernández Valenzuela";
-const role = "Estudiante de Programación de Videojuegos";
+const { t } = Astro.props;
 ---
 
 <section id="about" style="max-width:1000px; margin-bottom:6rem;">
-  <h1>Hola soy {name}</h1>
-  <h2>{role}</h2>
+  <h1>{t("introduction")} {t("name")}</h1>
+  <h2>{t("role")}</h2>
 
   <div class="about-content">
-    <img src="/me.png" alt="fotopata" />
+    <img src="/me.png" alt="foto de Esteban" />
 
     <div class="about-text">
-      <p>
-        Soy estudiante de programación de videojuegos y desarrollador creativo.
-        Me gusta crear experiencias interactivas y sistemas que se sientan fluidos y divertidos.
-        También disfruto realizar proyectos de programación que no estén directamente relacionados con videojuegos
-        y siempre estoy dispuesto a aprender nuevas tecnologías.
-      </p>
+      <p>{t("about")}</p>
     </div>
   </div>
 </section>

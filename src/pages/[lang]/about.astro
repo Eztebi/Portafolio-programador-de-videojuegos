@@ -1,0 +1,26 @@
+---
+import Pong from "../../components/Pong.astro";
+import Layout from "../../layouts/Layout.astro";
+import AboutMe from "../../components/AboutMe.astro";
+import { useTranslations } from "../../i18n/useTranslation";
+
+export function getStaticPaths() {
+    return [{ params: { lang: "es" } }, { params: { lang: "en" } }];
+}
+const { lang } = Astro.params;
+if (lang !== "es" && lang !== "en") {
+    throw new Error("Idioma no soportado");
+}
+const t = useTranslations(lang);
+---
+
+<!--Layout -->
+<Layout lang={lang} t={t}>
+    <!--About Me -->
+    <section id="about">
+        <AboutMe lang={lang} t={t}/>
+    </section>
+
+    <!--Juego-->
+    <Pong lang={lang} t={t}/>
+</Layout>

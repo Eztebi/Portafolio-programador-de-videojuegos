@@ -1,10 +1,11 @@
 ---
 import { FaGithub, FaEnvelope, FaYoutube, FaLinkedin } from "react-icons/fa";
+const { t } = Astro.props;
 ---
 
 <footer>
   <div class="footer-content">
-    <p class="footer-title">Contacto</p>
+    <p class="footer-title">{ t("footer.contact") }</p>
 
     <div class="footer-links">
       <a href="mailto:estebanhernandezV26@gmail.com">
